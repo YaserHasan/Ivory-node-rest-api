@@ -1,0 +1,25 @@
+user:
+ - id
+ - name: String
+ - email: String
+ - password: String
+
+product:
+ - id
+ - name: String
+ - price: number
+ - imageURL: String
+ - description: String
+ - specs: [{name: String, value: Mixed}]
+
+cart:
+ - userId
+ - productID: String
+ - quantity: Number
+
+order:
+ - id
+ - userId
+ - products: [{productId: String, quantity: Number, itemTotalPrice: Number}]
+ - totalPrice: Number
+ 
