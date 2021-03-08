@@ -17,6 +17,7 @@ db.once('open', () => console.log('Connected to Database'))
 
 const app = express();
 app.use(express.json());
+app.use('/images/products/categories', express.static('./images/product_categories'));
 
 app.use('/api/auth', auth);
 app.use('/api/products', products);

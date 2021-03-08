@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const validationUtils = require('../utils/validation_utils');
 
 const User = require('../models/user_model');
 const RefreshToken = require('../models/refresh_token_model');
@@ -9,18 +10,12 @@ function checkBodyProperies(requestBody, isLogin = false) {
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const nameRegex = /([a-zA-Z]{2,} )([a-zA-Z]{2,})/;
     if (!isLogin)
-        if (requestBody.name == "" || requestBody.name == undefined)
-            return "the field name is required";
-        else if (!nameRegex.test(requestBody.name))
-            return "enter a valid name";
-    if (requestBody.email == "" || requestBody.email == undefined)
-        return "the field email is required";
-    else if (!emailRegex.test(requestBody.email))
-        return "enter a valid email";
-    if (requestBody.password == "" || requestBody.password == undefined)
-        return "the field password is required";
-    else if (requestBody.password.length < 6)
-        return "password is too short";
+        if (validationUtils.validateString(requestBody.name, 'name', nameRegex))
+            return validationUtils.validateString(requestBody.name, 'name', nameRegex);
+    if (validationUtils.validateString(requestBody.email, 'email', emailRegex))
+        return validationUtils.validateString(requestBody.email, 'email', emailRegex);
+    if (validationUtils.validateString(requestBody.password, 'password', undefined, 6))
+        return validationUtils.validateString(requestBody.password, 'password', undefined, 6);
 }
 
 async function checkIfUserExsists(userEmail) {
@@ -120,21 +115,21 @@ exports.logout = async (req, res) => {
 exports.refreshToken = async (req, res) => {
     try {
         const refreshToken = req.body.refreshToken;
-        if (refreshToken == undefined || refreshToken == "")
-            return res.status(400).json({message: "the field refreshToken is required"});
+        if (validationUtils.validateString(refreshToken, 'refreshToken'))
+            return res.status(400).json({message: validationUtils.validateString(refreshToken, 'refreshToken')});
         
         const storedRefreshToken = await RefreshToken.findOne({refreshToken: refreshToken});
         if (storedRefreshToken != undefined) {
             jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, userData) => {
             if (err) 
-                res.status(403).json({message: "the refresh token is invalid"});
+                res.status(403).json({message: "invalid refreshToken"});
             else {
                 const accessToken = generateToken(userData);
                 res.status(200).json({accessToken: accessToken});
             }
         });
         } else {
-            res.status(403).json({message: "the refresh token is invalid"});
+            res.status(403).json({message: "invalid refreshToken"});
         }
             
     } catch(e) {

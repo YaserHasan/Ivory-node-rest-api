@@ -4,22 +4,29 @@ user:
  - email: String
  - password: String
 
+categories:
+ - id
+ - name: String
+
 product:
  - id
+ - categoryID
+ - isFeatured: boolean
  - name: String
  - price: number
  - imageURL: String
  - description: String
  - specs: [{name: String, value: Mixed}]
+ - clicks: number
 
 cart:
- - userId
+ - userID
  - productID: String
  - quantity: Number
 
 order:
  - id
- - userId
+ - userID
  - products: [{productId: String, quantity: Number, itemTotalPrice: Number}]
  - totalPrice: Number
  
