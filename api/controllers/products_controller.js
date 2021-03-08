@@ -39,8 +39,8 @@ exports.addCategory = async (req, res) => {
     try {
         const categoryName = req.body.categoryName;
         // validation
-        if (categoryName == undefined || categoryName.trim() == "")
-            return res.status(400).json({message: "the field categoryName is required"});
+        if (validationUtils.validateString(categoryName, 'categoryName', undefined, 6))
+            return res.status(400).json({message: validationUtils.validateString(categoryName, 'categoryName', undefined, 6)});
         // check if category already stored to avoid duplicates
         const storedCategory = await ProductCategory.findOne({name: categoryName}).exec();
         if (storedCategory != null) 
