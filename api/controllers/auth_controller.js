@@ -34,13 +34,12 @@ async function checkIfUserExsists(userEmail) {
 
 
 function generateToken(user) {
-    console.log(`from generateToken:\n ${user}\n`);
-    return jwt.sign({id: user._id, name: user.name, email: user.email}, process.env.JWT_SECRET, {expiresIn: "15s"});
+    return jwt.sign({_id: user._id, name: user.name, email: user.email}, process.env.JWT_SECRET, {expiresIn: "15s"});
 }
 
 async function addRefreshToken(userID, generatedRefreshToken) {
     // first check the refresh token already stored to avoid duplicates
-    const userRefreshTokens = await RefreshToken.find({userID: userID}).exec();
+    const userRefreshTokens = await RefreshToken.find({refreshToken: generatedRefreshToken}).exec();
     if (userRefreshTokens.length > 0) return;
     const refreshToken = new RefreshToken({
         userID: userID,
@@ -90,13 +89,13 @@ exports.login = async (req, res) => {
         const user = isUserExsists;
         const result = await bcrypt.compare(req.body.password, user.password);
         if (result) {
-            const token = generateToken(user);
+            const accessToken = generateToken(user);
             const refreshToken = jwt.sign(
-                {id: user._id, name: user.name, email: user.email},
+                {_id: user._id, name: user.name, email: user.email},
                 process.env.JWT_REFRESH_SECRET,
             );
             await addRefreshToken(user._id, refreshToken);
-            res.status(200).json({message: "user logged in successfully", token, refreshToken});
+            res.status(200).json({message: "user logged in successfully", accessToken, refreshToken});
         }
         else {
             res.status(401).json({message: "The password is incorrect"});
@@ -109,9 +108,8 @@ exports.login = async (req, res) => {
 }
 
 exports.logout = async (req, res) => {
-    console.log(`from logout\n${req.userData.id}\n`);
     try {
-        await RefreshToken.deleteMany({userID: req.userData.id}).exec();
+        await RefreshToken.deleteMany({userID: req.userData._id}).exec();
         res.status(204).json({message: "logged out successfully"});
     } catch(e) {
         console.log(e);
@@ -121,19 +119,18 @@ exports.logout = async (req, res) => {
 
 exports.refreshToken = async (req, res) => {
     try {
-        const refreshToken = req.body.token;
+        const refreshToken = req.body.refreshToken;
         if (refreshToken == undefined || refreshToken == "")
-            return res.status(400).json({message: "the field token is required"});
+            return res.status(400).json({message: "the field refreshToken is required"});
         
         const storedRefreshToken = await RefreshToken.findOne({refreshToken: refreshToken});
         if (storedRefreshToken != undefined) {
-            const userData = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, userData) => {
-            console.log(`from refreshToken\n${userData}\n`);
+            jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, userData) => {
             if (err) 
                 res.status(403).json({message: "the refresh token is invalid"});
             else {
                 const accessToken = generateToken(userData);
-                res.status(200).json({token: accessToken});
+                res.status(200).json({accessToken: accessToken});
             }
         });
         } else {
