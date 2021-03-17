@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const auth = require('./api/routes/auth_route');
 const products = require('./api/routes/products_route');
+const cart = require('./api/routes/cart_route');
 const orders = require('./api/routes/orders_route');
 
 
@@ -21,6 +22,7 @@ app.use('/images/products/categories', express.static('./images/product_categori
 
 app.use('/api/auth', auth);
 app.use('/api/products', products);
+app.use('/api/cart', cart);
 app.use('/api/orders', orders);
 
 app.listen(3000);

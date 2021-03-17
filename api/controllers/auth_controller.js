@@ -29,7 +29,7 @@ async function checkIfUserExsists(userEmail) {
 
 
 function generateToken(user) {
-    return jwt.sign({_id: user._id, name: user.name, email: user.email}, process.env.JWT_SECRET, {expiresIn: "15s"});
+    return jwt.sign({_id: user._id, name: user.name, email: user.email}, process.env.JWT_SECRET, {expiresIn: "10m"});
 }
 
 async function addRefreshToken(userID, generatedRefreshToken) {
@@ -105,7 +105,7 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     try {
         await RefreshToken.deleteMany({userID: req.userData._id}).exec();
-        res.status(204).json({message: "logged out successfully"});
+        res.status(200).json({message: "logged out successfully"});
     } catch(e) {
         console.log(e);
         res.status(500).json({message: "internal server error"});

@@ -3,32 +3,7 @@ const validationUtils = require('../utils/validation_utils');
 
 const Product = require('../models/product_model');
 const ProductCategory = require('../models/product_category_model');
-
-
-function formatProduct(product, inDetails) {
-    const baseFormat = {
-        id: product._id,
-        name: product.name,
-        category: {
-            id: product.categoryID.id,
-            name: product.categoryID.name,
-        },
-        price: product.price,
-        imageURL: product.imageURL,
-    };
-    if (!inDetails) return baseFormat;
-    return {
-        ...baseFormat,
-        description: product.description,
-        specs: product.specs.map((spec) => {
-            return {
-                name: spec.name,
-                value: spec.value
-            }
-        }),
-
-    }
-}
+const formatUtils = require('../utils/format_utils');
 
 async function isCategoryIDExists(categoryID) {
     const storedCategory = await ProductCategory.findById(categoryID).exec();
@@ -111,7 +86,7 @@ exports.addProduct = async (req, res) => {
         }
         // check if categoryID refer to actual category
         if (!(await isCategoryIDExists(categoryID)))
-            return res.status(400).json({message: "invalid categoryID"});
+            return res.status(404).json({message: "no category with this ID could be found"});
         const product = new Product({
             _id: new mongoose.Types.ObjectId.ObjectId(),
             categoryID: categoryID,
@@ -143,7 +118,7 @@ exports.getCategoryProducts = async (req, res) => {
         // get category products
         let categoryProducts = await Product.find({categoryID: categoryID}).populate('categoryID').exec();
         // format products
-        categoryProducts = categoryProducts.map((product) => formatProduct(product));
+        categoryProducts = categoryProducts.map((product) => formatUtils.formatProduct(product));
         res.status(200).json({data: categoryProducts});
     } catch(e) {
         console.log(e);
@@ -163,7 +138,7 @@ exports.getProductDetails = async (req, res) => {
             return res.status(404).json({message: "No Product with the given ID could be found"});
         // increment the clicks property
         await product.updateOne({$inc: {clicks: 1}});
-        res.status(200).json({data: formatProduct(product, true)});
+        res.status(200).json({data: formatUtils.formatProduct(product, true)});
     } catch(e) {
         console.log(e);
         res.status(500).json({message: "internal server error"});
@@ -173,7 +148,7 @@ exports.getProductDetails = async (req, res) => {
 exports.getMostPopularProducts = async (req, res) => {
     try {
         let popularProducts = await Product.find().populate('categoryID').sort({clicks: -1}).limit(10).exec();
-        popularProducts = popularProducts.map((product) => formatProduct(product));
+        popularProducts = popularProducts.map((product) => formatUtils.formatProduct(product));
         res.status(200).json({data: popularProducts});
     } catch(e) {
         console.log(e);
@@ -189,7 +164,7 @@ exports.getFeaturedProducts = async (req, res) => {
             featuredProducts = await Product.find().populate('categoryID')
                 .sort([['createdAt', -1], ['clicks', -1]]).limit(10).exec();
         }
-        featuredProducts = featuredProducts.map((product) => formatProduct(product));
+        featuredProducts = featuredProducts.map((product) => formatUtils.formatProduct(product));
         res.status(200).json({data: featuredProducts});
     } catch(e) {
         console.log(e);
