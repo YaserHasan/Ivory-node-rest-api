@@ -29,7 +29,18 @@ async function checkIfUserExsists(userEmail) {
 
 
 function generateToken(user) {
-    return jwt.sign({_id: user._id, name: user.name, email: user.email}, process.env.JWT_SECRET, {expiresIn: "10m"});
+    return jwt.sign(
+        {
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        },
+        process.env.JWT_SECRET,
+        {
+            algorithm: "HS256",
+            expiresIn: "10m"
+        },
+    );
 }
 
 async function addRefreshToken(userID, generatedRefreshToken) {
@@ -122,14 +133,14 @@ exports.refreshToken = async (req, res) => {
         if (storedRefreshToken != undefined) {
             jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, userData) => {
             if (err) 
-                res.status(403).json({message: "invalid refreshToken"});
+                res.status(401).json({message: "invalid refreshToken"});
             else {
                 const accessToken = generateToken(userData);
                 res.status(200).json({accessToken: accessToken});
             }
         });
         } else {
-            res.status(403).json({message: "invalid refreshToken"});
+            res.status(401).json({message: "invalid refreshToken"});
         }
             
     } catch(e) {
