@@ -114,10 +114,14 @@ exports.getUserCart = async (req, res) => {
             ]
         })
         .exec();
+        let cartTotalPrice = 0;
         userCart = userCart.map((cartProduct) => {
+            const productTotalPrice = cartProduct.productID.price * cartProduct.quantity;
+            cartTotalPrice += productTotalPrice;
             return {
-                quantity: cartProduct.quantity,
                 ...formatUtils.formatProduct(cartProduct.productID),
+                quantity: cartProduct.quantity,
+                productTotalPrice: productTotalPrice,
             };
         });
         res.status(200).json({data: userCart});
