@@ -5,7 +5,7 @@ const formatUtils = require('../utils/format_utils');
 
 exports.addProductToCart = async (req, res) => {
     try {
-        const productID = req.body.productID;
+        const productID = req.params.productID;
         const userID = req.userData._id;
         // validation
         if (validationUtils.validateString(productID, 'productID', /^[0-9a-fA-F]{24}$/))
@@ -29,7 +29,7 @@ exports.addProductToCart = async (req, res) => {
 
 exports.incrementProductQuantity = async (req, res) => {
     try {
-        const productID = req.body.productID;
+        const productID = req.params.productID;
         const userID = req.userData._id;
         // validation
         if (validationUtils.validateString(productID, 'productID', /^[0-9a-fA-F]{24}$/))
@@ -51,7 +51,7 @@ exports.incrementProductQuantity = async (req, res) => {
 
 exports.decrementProductQuantity = async (req, res) => {
     try {
-        const productID = req.body.productID;
+        const productID = req.params.productID;
         const userID = req.userData._id;
         // validation
         if (validationUtils.validateString(productID, 'productID', /^[0-9a-fA-F]{24}$/))
@@ -76,7 +76,7 @@ exports.decrementProductQuantity = async (req, res) => {
 
 exports.deleteProductFromCart = async (req, res) => {
     try {
-        const productID = req.body.productID;
+        const productID = req.params.productID;
         const userID = req.userData._id;
         // validation
         if (validationUtils.validateString(productID, 'productID', /^[0-9a-fA-F]{24}$/))
@@ -125,6 +125,25 @@ exports.getUserCart = async (req, res) => {
             };
         });
         res.status(200).json({data: userCart});
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({message: "internal server error"});
+    }
+}
+
+exports.isProductInUserCart = async (req, res) => {
+    try {
+        const productID = req.params.productID;
+        // validation
+        if (validationUtils.validateString(productID, 'productID', /^[0-9a-fA-F]{24}$/))
+            return res.status(400).json({message: validationUtils.validateString(productID, 'productID', /^[0-9a-fA-F]{24}$/)});
+
+        const userID = req.userData._id;
+        const productItem = await Cart.findOne({userID: userID, productID: productID});
+        if (productItem)
+            return res.status(200).json({message: 'Product available in user cart', isInCart: true});
+        res.status(200).json({message: 'Product not available in user cart', isInCart: false});
+        
     } catch(e) {
         console.log(e);
         res.status(500).json({message: "internal server error"});
