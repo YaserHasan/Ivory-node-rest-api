@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const auth = require('./api/routes/auth_route');
 const products = require('./api/routes/products_route');
 const cart = require('./api/routes/cart_route');
@@ -17,6 +18,7 @@ db.once('open', () => console.log('Connected to Database'))
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/images/products/categories', express.static('./images/product_categories'));
 
