@@ -117,9 +117,20 @@ exports.getCategoryProducts = async (req, res) => {
             return res.status(400).json({message: "invalid categoryID"});
         // get category products
         let categoryProducts = await Product.find({categoryID: categoryID}).populate('categoryID').exec();
+        // get category name
+        const category = await ProductCategory.findOne({_id: categoryID});
+        // check if category available
+        if (!category)
+            return res.status(404).json({message: 'no category with this ID could be found'});
+        const categoryName = category.name;
         // format products
         categoryProducts = categoryProducts.map((product) => formatUtils.formatProduct(product));
-        res.status(200).json({data: categoryProducts});
+        res.status(200).json({
+            data: {
+                categoryName: categoryName,
+                categoryProducts: categoryProducts
+            }
+        });
     } catch(e) {
         console.log(e);
         res.status(500).json({message: "internal server error"});
