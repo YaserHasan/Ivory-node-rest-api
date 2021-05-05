@@ -1,0 +1,680 @@
+{
+	"info": {
+		"_postman_id": "72d582c4-8bd1-49c1-88e9-4c2369fc01ac",
+		"name": "ivory rest api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sweeter.yaser@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"email\": \"\",\n    \"passwrd\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/refreshToken",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refreshToken"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "add product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryID\": \"604605d55802673c786e0900\",\n    \"isFeatured\": false,\n    \"name\": \"Samsung Galaxy S21 Ultra 512GB Phantom Black SM-G998B/DS - 1 Year Warranty by The Official Distributor\",\n    \"price\": 5165,\n    \"imageURL\": \"https://www.ivory.co.il/files/catalog/org/1611668774a74EB.jpg\",\n    \"description\": \"The Samsung Galaxy S21 Ultra is designed to deliver everything you could possibly want in a big-screen Android phone. And based on my testing, it pretty much does. The Galaxy S21 Ultra comes in a sleeker design and offers faster performance from Qualcomm's Snapdragon 888 chip. And, unlike the regular Galaxy S21, you don't have to make nearly as many trade-offs. You get a better main 108MP camera, a glass back (instead of plastic), more RAM, and a higher-res display.\",\n    \"specs\": [\n        {\n            \"name\": \"warranty\",\n            \"value\": \"2 years\"\n        },\n        {\n            \"name\": \"CPU\",\n            \"value\": \"Octa-core (1x2.9 GHz Cortex-X1 & 3x2.80 GHz Cortex-A78 & 4x2.2 GHz Cortex-A55) - International\"\n        },\n        {\n            \"name\": \"Display\",\n            \"value\": \"6.8 inches Dynamic AMOLED 2X, 120Hz, HDR10+, 1500 nits (peak)\"\n        },\n        {\n            \"name\": \"GPU\",\n            \"value\": \"Mali-G78 MP14 - International, Adreno 660 - USA/China\"\n        },\n        {\n            \"name\": \"RAM\",\n            \"value\": \"16GB RAM\"\n        },\n        {\n            \"name\": \"Storage\",\n            \"value\": \"128GB, 256GB, 512GB\"\n        },\n        {\n            \"name\": \"Main Camera\",\n            \"value\": \"108 MP, f/1.8, 24mm (wide), 1/1.33\\\", 0.8µm, PDAF, Laser AF, OIS\"\n        },\n        {\n            \"name\": \"Selfie Camera\",\n            \"value\": \"40 MP, f/2.2, 26mm (wide), 1/2.8\\\", 0.7µm, PDAF\"\n        },\n        {\n            \"name\": \"Battery\",\n            \"value\": \"Li-Ion 5000 mAh, non-removable\"\n        },\n        {\n            \"name\": \"Chipset\",\n            \"value\": \"Exynos 2100 (5 nm) - International, Qualcomm SM8350 Snapdragon 888 (5 nm) - USA/China\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryName\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/categories/604605d55802673c786e0900",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"categories",
+								"604605d55802673c786e0900"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get most popular products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/mostPopular",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"mostPopular"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get featured products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/featured",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"featured"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/products/60464af49da6c9044c31d051",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"60464af49da6c9044c31d051"
+							],
+							"query": [
+								{
+									"key": "acc",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "get user cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check if product in user cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart/productID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart",
+								"productID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add product to user cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart/productID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart",
+								"productID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "increment product quantity",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart/incrementQuantity/productID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart",
+								"incrementQuantity",
+								"productID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "decrement product quantity",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart/decrementQuantity/productID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart",
+								"decrementQuantity",
+								"productID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product from user cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/cart/productID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cart",
+								"productID"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "create order from user cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user orders",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
