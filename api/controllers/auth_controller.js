@@ -148,3 +148,7 @@ exports.refreshToken = async (req, res) => {
         res.status(500).json({message: "internal server error"});
     }
 }
+
+exports.checkAuth = (req, res) => {
+    return res.status(204).send();
+}
