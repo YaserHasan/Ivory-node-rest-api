@@ -4,7 +4,8 @@
   "description": "rest api for my ivory project (college end project)",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "startDev": "nodemon server.js"
   },
   "author": "Yaser Hasan",
   "license": "ISC",
