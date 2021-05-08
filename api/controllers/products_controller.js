@@ -40,7 +40,7 @@ exports.getAllCategories = async (req, res) => {
             return {
                 id: category._id,
                 name: category.name,
-                imageURL: `http://localhost:3000/images/products/categories/${category._id}.png`
+                imageURL: `images/products/categories/${category._id}.png`
             };
         });
         res.status(200).json({data: categories});
